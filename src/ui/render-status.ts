@@ -1,5 +1,5 @@
-import type { SearchViewState } from '../country-search-controller';
-import { clear, el } from './dom';
+import type { SearchViewState } from '../country-search-controller.js';
+import { clear, el } from './dom.js';
 
 type StatusState = Exclude<SearchViewState, { kind: 'results' }>;
 
@@ -13,7 +13,7 @@ export function renderStatus(
   if (state.kind === 'idle') return;
 
   if (state.kind === 'loading') {
-    container.append(el('p', { className: 'loading' }, ['Loading…']));
+    container.append(el('p', { className: 'loading' }, ['Loading...']));
     return;
   }
 

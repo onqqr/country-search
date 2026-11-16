@@ -1,6 +1,6 @@
-import { classifySearchError, resolveSearchResult } from './classify-search-error';
-import { debounce } from './debounce';
-import type { CountryCard } from './map-country-response';
+import { classifySearchError, resolveSearchResult } from './classify-search-error.js';
+import { debounce } from './debounce.js';
+import type { CountryCard } from './map-country-response.js';
 
 export type SearchViewState =
   | { kind: 'idle' }

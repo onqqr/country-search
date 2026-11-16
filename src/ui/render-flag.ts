@@ -1,4 +1,4 @@
-import { el } from './dom';
+import { el } from './dom.js';
 
 export function renderFlag(flag: string, name: string, className = 'flag'): HTMLElement {
   if (flag.startsWith('http')) {

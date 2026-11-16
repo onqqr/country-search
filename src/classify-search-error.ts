@@ -1,4 +1,4 @@
-import { HttpError } from './http-error';
+import { HttpError } from './http-error.js';
 
 export type SearchResultState = { kind: 'empty' } | { kind: 'results'; items: unknown[] };
 
