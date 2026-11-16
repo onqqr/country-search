@@ -160,6 +160,46 @@ body {
   margin-top: 10px;
 }
 
+.history {
+  margin-top: 10px;
+}
+
+.history.hidden {
+  display: none;
+}
+
+.history-label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: var(--xp-dark);
+}
+
+.history-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.history-item {
+  padding: 2px 8px;
+  font-family: var(--font-ui);
+  font-size: 12px;
+  background: var(--xp-face);
+  color: var(--xp-black);
+  border-top: 2px solid var(--xp-white);
+  border-left: 2px solid var(--xp-white);
+  border-right: 2px solid var(--xp-black);
+  border-bottom: 2px solid var(--xp-black);
+  cursor: pointer;
+}
+
+.history-item:active {
+  border-top: 2px solid var(--xp-black);
+  border-left: 2px solid var(--xp-black);
+  border-right: 2px solid var(--xp-white);
+  border-bottom: 2px solid var(--xp-white);
+}
+
 .loading,
 .empty {
   margin: 0;

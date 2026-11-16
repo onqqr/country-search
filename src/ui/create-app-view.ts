@@ -2,6 +2,7 @@ import type { SearchViewState } from '../country-search-controller.js';
 import type { CountryCard } from '../map-country-response.js';
 import { el } from './dom.js';
 import { hideDetails, renderDetails } from './render-details.js';
+import { renderHistory } from './render-history.js';
 import { renderResults } from './render-results.js';
 import { renderStatus } from './render-status.js';
 
@@ -9,10 +10,12 @@ export type AppView = {
   root: HTMLElement;
   input: HTMLInputElement;
   setState: (state: SearchViewState) => void;
+  setHistory: (items: string[]) => void;
   showDetails: (country: CountryCard) => void;
   onRetry: (handler: () => void) => void;
   onSelect: (handler: (country: CountryCard) => void) => void;
   onClear: (handler: () => void) => void;
+  onHistorySelect: (handler: (query: string) => void) => void;
 };
 
 function createTitleBar(title: string, options: { onClose?: () => void } = {}): HTMLElement {
@@ -41,6 +44,7 @@ export function createAppView(): AppView {
 
   const clearButton = el('button', { className: 'clear-btn', type: 'button' }, ['Clear']);
   const status = el('div', { className: 'status', 'aria-live': 'polite' });
+  const history = el('div', { className: 'history hidden' });
   const results = el('div', { className: 'results' });
   const details = el('div', { className: 'details' });
 
@@ -60,6 +64,7 @@ export function createAppView(): AppView {
         el('p', { className: 'subtitle' }, ['Type a name - results update as you type.']),
         el('div', { className: 'search-row' }, [input, clearButton]),
         status,
+        history,
       ]),
     ]),
     el('div', { className: 'layout' }, [
@@ -98,6 +103,7 @@ export function createAppView(): AppView {
   let retryHandler = (): void => undefined;
   let selectHandler = (_country: CountryCard): void => undefined;
   let clearHandler = (): void => undefined;
+  let historySelectHandler = (_query: string): void => undefined;
 
   clearButton.addEventListener('click', () => {
     input.value = '';
@@ -119,12 +125,17 @@ export function createAppView(): AppView {
     renderResults(results, [], selectHandler);
   };
 
+  const setHistory = (items: string[]): void => {
+    renderHistory(history, items, (query) => historySelectHandler(query));
+  };
+
   renderResults(results, [], selectHandler);
 
   return {
     root,
     input,
     setState,
+    setHistory,
     showDetails: (country) => renderDetails(details, country),
     onRetry: (handler) => {
       retryHandler = handler;
@@ -134,6 +145,9 @@ export function createAppView(): AppView {
     },
     onClear: (handler) => {
       clearHandler = handler;
+    },
+    onHistorySelect: (handler) => {
+      historySelectHandler = handler;
     },
   };
 }

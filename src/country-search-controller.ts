@@ -19,6 +19,7 @@ export type CountrySearchControllerOptions = {
 
 export type CountrySearchController = {
   setQuery: (query: string) => void;
+  searchNow: (query: string) => void;
   retry: () => void;
   destroy: () => void;
 };
@@ -104,6 +105,20 @@ export function createCountrySearchController(
     debouncedSearch(trimmed);
   };
 
+  const searchNow = (query: string): void => {
+    lastQuery = query;
+    abortInFlight();
+
+    const trimmed = query.trim();
+
+    if (trimmed === '') {
+      emit({ kind: 'idle' });
+      return;
+    }
+
+    void executeSearch(trimmed);
+  };
+
   const retry = (): void => {
     const trimmed = lastQuery.trim();
 
@@ -119,5 +134,5 @@ export function createCountrySearchController(
     abortInFlight();
   };
 
-  return { setQuery, retry, destroy };
+  return { setQuery, searchNow, retry, destroy };
 }
